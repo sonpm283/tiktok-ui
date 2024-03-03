@@ -68,16 +68,3 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-
-### Setup Project
-
-### customize-cra:
-npm i customize-cra react-app-rewired -D
-- Create a config-overrides.js file in the root directory
-- copy: 
-  /* config-overrides.js */
-
-  module.exports = function override(config, env) {
-    //do stuff with the webpack config...
-    return config;
-  }
