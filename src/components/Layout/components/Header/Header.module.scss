@@ -20,10 +20,14 @@
   width: var(--default-layout-width);
 }
 
+.search,
+.search-result {
+  width: 500px;
+}
+
 .search {
   position: relative;
   display: flex;
-  width: 500px;
   height: var(--search-height);
   padding-left: 16px;
   background-color: rgba(22, 24, 35, 0.06);
@@ -57,6 +61,14 @@
   &:hover {
     border-color: rgba(22, 24, 35, 0.2);
   }
+}
+
+.search-title {
+  padding: 5px 12px;
+  font-size: 1.4rem;
+  line-height: 1.8rem;
+  font-weight: 600;
+  color: rgba(22, 24, 35, 0.5);
 }
 
 .clear,
