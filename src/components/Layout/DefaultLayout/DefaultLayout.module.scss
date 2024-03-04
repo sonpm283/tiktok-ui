@@ -1,0 +1,12 @@
+.wrapper {
+  position: relative;
+}
+
+.container {
+  min-height: calc(100vh - 60px);
+  display: flex;
+}
+
+.content {
+  flex: 1;
+}
