@@ -1,10 +1,10 @@
 import classnames from 'classnames/bind'
-import Styles from './AccountItem.module.scss'
+import styles from './AccountItem.module.scss'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
 
-const cx = classnames.bind(Styles)
+const cx = classnames.bind(styles)
 function AccountItem() {
   return (
     <div className={cx('wrapper')}>

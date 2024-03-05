@@ -99,3 +99,15 @@
     background-color: rgba(22, 24, 35, 0.06);
   }
 }
+
+.logo {
+  & > a,
+  img {
+    display: block;
+  }
+}
+
+.action {
+  display: flex;
+  align-items: center;
+}
