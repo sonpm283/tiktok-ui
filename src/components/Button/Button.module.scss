@@ -11,6 +11,7 @@
   border: 1px solid transparent;
   background-color: transparent;
   padding: 0 16px;
+  line-height: 1.8rem;
 
   + .wrapper {
     margin-left: 16px;
@@ -25,6 +26,12 @@
 .icon + .name,
 .name + .icon {
   margin-left: 8px;
+}
+
+.icon {
+  display: inline-block;
+  width: 24px;
+  text-align: center;
 }
 
 // button types
@@ -68,6 +75,16 @@
     &:hover {
       background-color: rgba(254, 44, 85, 0.06);
     }
+  }
+}
+
+.text {
+  min-height: auto;
+  height: auto;
+  padding: 0;
+
+  &:hover {
+    text-decoration: underline;
   }
 }
 

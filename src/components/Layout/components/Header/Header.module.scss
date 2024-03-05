@@ -17,6 +17,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 20px;
   width: var(--default-layout-width);
 }
 
@@ -110,4 +111,12 @@
 .action {
   display: flex;
   align-items: center;
+}
+
+.menu-btn {
+  cursor: pointer;
+  font-size: 2rem;
+  margin-left: 16px;
+  padding: 4px 8px;
+  background-color: transparent;
 }

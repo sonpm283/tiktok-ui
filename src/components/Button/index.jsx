@@ -9,6 +9,7 @@ function Button({
   href,
   primary = false,
   outline = false,
+  text = false,
   rounded = false,
   disabled = false,
   xsmall = false,
@@ -23,20 +24,20 @@ function Button({
 }) {
   let Button = 'button'
 
+  // Pass all props to the button
   const props = {
     onClick,
     ...passProps,
   }
 
+  // Remove all event handlers if the button is disabled
   if (disabled) {
     Object.keys(props).forEach((key) => {
-      if (key.startsWith('on') || typeof props[key] === 'function') {
+      if (key.startsWith('on') && typeof props[key] === 'function') {
         delete props[key]
       }
     })
   }
-
-  console.log(props)
 
   if (to) {
     props.to = to
@@ -46,11 +47,13 @@ function Button({
     Button = 'a'
   }
 
+  // [className]: className is a dynamic class name
   const classes = cx('wrapper', {
     [className]: className,
     primary,
     outline,
     large,
+    text,
     small,
     disabled,
     rounded,
