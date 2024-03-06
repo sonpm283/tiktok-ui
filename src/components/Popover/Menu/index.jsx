@@ -33,6 +33,7 @@ function Menu({ children, MenuItems = [], onChange }) {
   return (
     <div>
       <Tippy
+        trigger="click"
         // visible={true}
         interactive={true}
         placement="bottom-end"

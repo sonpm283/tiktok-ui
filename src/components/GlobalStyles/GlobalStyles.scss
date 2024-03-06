@@ -40,3 +40,31 @@ a {
   color: var(--text-color);
   text-decoration: none;
 }
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+.tippy-box {
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 2.1rem;
+  background-color: rgba(84, 84, 84, 0.92);
+  color: rgb(255, 255, 255);
+}
+
+.tippy-content {
+  padding: 8px;
+}
+
+.tippy-arrow {
+  color: rgba(84, 84, 84, 0.92);
+}
+
+.tippy-box[data-placement^='bottom'] {
+  & > .tippy-arrow:before {
+    top: -8px;
+  }
+}

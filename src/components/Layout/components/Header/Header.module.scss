@@ -48,6 +48,10 @@
     color: rgba(22, 24, 35, 0.75);
   }
 
+  input:not(:placeholder-shown) ~ .clear {
+    display: block;
+  }
+
   &::after {
     content: '';
     position: absolute;
@@ -82,6 +86,11 @@
   transform: translateY(-50%);
 }
 
+.clear {
+  cursor: pointer;
+  display: none;
+}
+
 .search-btn {
   width: var(--search-button-width);
   height: 100%;
@@ -102,15 +111,25 @@
 }
 
 .logo {
+  flex: 0 0 118px;
   & > a,
   img {
     display: block;
   }
 }
 
-.action {
+.actions {
   display: flex;
   align-items: center;
+
+  &-login {
+    gap: 24px;
+  }
+}
+
+.action-btn {
+  background-color: transparent;
+  cursor: pointer;
 }
 
 .menu-btn {
@@ -119,4 +138,12 @@
   margin-left: 16px;
   padding: 4px 8px;
   background-color: transparent;
+}
+
+.avatar {
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  overflow: hidden;
+  border-radius: 50%;
 }
