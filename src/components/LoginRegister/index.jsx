@@ -1,13 +1,16 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import classnames from 'classnames/bind'
 import styles from './LoginRegister.module.scss'
 import Button from '../Button'
 import { loginSchema, registerSchema } from '~/utils/rules'
+import { authApi } from '~/apis/auth.api'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import { toast } from 'react-toastify'
+
 import {
   AppleIcon,
   FacebookIcon,
@@ -19,6 +22,7 @@ import {
   TwitterIcon,
 } from '../Icons'
 import Input from '../Input'
+import { AppContext } from '~/contexts/app.context'
 
 const cx = classnames.bind(styles)
 
@@ -27,6 +31,7 @@ function LoginRegister() {
   const [toggleSreen, setToggleScreen] = useState(true)
   const [loginScreen, setLoginScreen] = useState(false)
   const [registerScreen, setRegisterScreen] = useState(false)
+  const {} = useContext(AppContext)
 
   const {
     register,
@@ -42,7 +47,26 @@ function LoginRegister() {
   })
 
   const onSubmit = handleSubmit((data) => {
-    console.log(data)
+    if (registerScreen) {
+      //call api register
+      //pick username and password from data
+      const { username, password } = data
+      const payload = { name: username, email: username, password }
+
+      const fetchApi = async () => {
+        try {
+          const res = await authApi.register(payload)
+          console.log(res)
+
+          toast.success('Register success!!')
+        } catch (error) {
+          toast.error(error.response.data.message)
+        }
+      }
+      fetchApi()
+    } else {
+      // capp api login
+    }
   })
 
   return (
@@ -175,7 +199,6 @@ function LoginRegister() {
 
                 {!registerScreen && <button className={cx('forgot-btn')}>Forgot password?</button>}
               </div>
-
               {registerScreen && (
                 <div className={cx('input-box')}>
                   <Input
