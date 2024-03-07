@@ -55,6 +55,13 @@
     border-color: currentColor;
     background: linear-gradient(0deg, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.06)), rgb(254, 44, 85);
   }
+
+  &.disabled {
+    opacity: 1;
+    background-color: #f1f1f2;
+    color: rgba(22, 24, 35, 0.34);
+    border-color: transparent;
+  }
 }
 
 .outline {

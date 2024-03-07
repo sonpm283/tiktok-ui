@@ -6,6 +6,7 @@
   --black: #000;
   --white: #fff;
   --text-color: #333;
+  --red: red;
 
   //Default Layout
   --default-layout-header-height: 60px;
@@ -34,6 +35,11 @@ input,
 [tabindex] {
   outline: none;
   border: none;
+  background-color: transparent;
+}
+
+button {
+  cursor: pointer;
 }
 
 a {

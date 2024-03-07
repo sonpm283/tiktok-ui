@@ -155,7 +155,7 @@ const MenuItemsLogin = [
 function Header() {
   // const [searchResult, setSearchResult] = useState([])
   const [searchValue, setSearchValue] = useState('')
-  const [isOpenModal, setIsOpenModal] = useState(false)
+  const [isOpenModal, setIsOpenModal] = useState(true)
 
   const isAuthentication = false
 
@@ -275,7 +275,7 @@ function Header() {
           </Menu>
         </div>
       </div>
-      <Modal open={isOpenModal} onClose={() => setIsOpenModal(false)}>
+      <Modal isOpen={isOpenModal} onClose={() => setIsOpenModal(false)}>
         <LoginRegister />
       </Modal>
     </header>
