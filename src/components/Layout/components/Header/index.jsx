@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import classnames from 'classnames/bind'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -34,6 +34,7 @@ import Menu from '~/components/Popover/Menu'
 import { InboxIcon, MessageIcon } from '~/components/Icons'
 import Modal from '~/components/Modal'
 import LoginRegister from '~/components/LoginRegister'
+import { AppContext } from '~/contexts/app.context'
 
 const cx = classnames.bind(styles)
 
@@ -156,8 +157,9 @@ function Header() {
   // const [searchResult, setSearchResult] = useState([])
   const [searchValue, setSearchValue] = useState('')
   const [isOpenModal, setIsOpenModal] = useState(true)
+  const { isAuththenticated } = useContext(AppContext)
 
-  const isAuthentication = false
+  const meuData = isAuththenticated ? MenuItemsLogin : MenuItems
 
   const handleChange = (e) => {
     const target = e.target
@@ -231,13 +233,13 @@ function Header() {
 
         <div
           className={cx('actions', {
-            'actions-login': isAuthentication,
+            'actions-login': isAuththenticated,
           })}
         >
           <Button outline leftIcon={<FontAwesomeIcon icon={faPlus} />}>
             Upload
           </Button>
-          {isAuthentication ? (
+          {isAuththenticated ? (
             <>
               <Tippy placement="bottom" content="Messages">
                 <button type="button" className={cx('action-btn')}>
@@ -259,11 +261,11 @@ function Header() {
             </>
           )}
 
-          <Menu MenuItems={isAuthentication ? MenuItemsLogin : MenuItems} onChange={handleMenuChange}>
-            {isAuthentication ? (
+          <Menu MenuItems={meuData} onChange={handleMenuChange}>
+            {isAuththenticated ? (
               <button type="button" className={cx('avatar')}>
                 <img
-                  src="https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/7342149854531059717~c5_720x720.jpeg?lk3s=a5d48078&x-expires=1709863200&x-signature=15oNn5ykpW5uWx53EBhwbFFv6w4%3D&quot"
+                  src="https://images.unsplash.com/photo-1659646240684-a405b508c41f?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGdva3V8ZW58MHx8MHx8fDA%3D"
                   alt="sonpm"
                 />
               </button>
@@ -275,9 +277,12 @@ function Header() {
           </Menu>
         </div>
       </div>
-      <Modal isOpen={isOpenModal} onClose={() => setIsOpenModal(false)}>
-        <LoginRegister />
-      </Modal>
+
+      {!isAuththenticated && (
+        <Modal isOpen={isOpenModal} onClose={() => setIsOpenModal(false)}>
+          <LoginRegister />
+        </Modal>
+      )}
     </header>
   )
 }

@@ -1,6 +1,6 @@
 .wrapper {
   display: flex;
-  align-content: center;
+  align-items: center;
   gap: 10px;
   padding: 6px 16px;
   cursor: pointer;
@@ -35,4 +35,23 @@
   margin-left: 6px;
   font-size: 1.4rem;
   color: rgb(32, 213, 236);
+}
+
+.account-small {
+  padding: 8px;
+
+  img {
+    width: 32px;
+    height: 32px;
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .username {
+    font-size: 1.2rem;
+  }
 }

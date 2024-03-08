@@ -5,9 +5,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
 
 const cx = classnames.bind(styles)
-function AccountItem() {
+function AccountItem({ className }) {
   return (
-    <div className={cx('wrapper')}>
+    <div
+      className={cx('wrapper', {
+        [className]: className,
+      })}
+    >
       <img
         className={cx('avatar')}
         src="https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/f6728bdcb21eb1e814ba91f844738e53~c5_100x100.jpeg?lk3s=a5d48078&x-expires=1709946000&x-signature=HwC5akTRYJ2YLtjBOZzlRrS4PUk%3D"

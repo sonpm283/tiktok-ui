@@ -7,6 +7,8 @@ import Following from '~/pages/Following'
 import Profile from '~/pages/Profile'
 import Upload from '~/pages/Upload'
 import Search from '~/pages/Search'
+import Friends from '~/pages/Friend'
+import Explore from '~/pages/Explore'
 
 // Public routes
 const publicRoutes = [
@@ -21,6 +23,14 @@ const publicRoutes = [
   {
     path: '/profile',
     component: Profile,
+  },
+  {
+    path: '/friends',
+    component: Friends,
+  },
+  {
+    path: '/explore',
+    component: Explore,
   },
   {
     path: '/upload',

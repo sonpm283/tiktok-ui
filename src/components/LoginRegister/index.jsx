@@ -10,6 +10,7 @@ import { authApi } from '~/apis/auth.api'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import { toast } from 'react-toastify'
+import { AppContext } from '~/contexts/app.context'
 
 import {
   AppleIcon,
@@ -22,7 +23,6 @@ import {
   TwitterIcon,
 } from '../Icons'
 import Input from '../Input'
-import { AppContext } from '~/contexts/app.context'
 
 const cx = classnames.bind(styles)
 
@@ -31,7 +31,7 @@ function LoginRegister() {
   const [toggleSreen, setToggleScreen] = useState(true)
   const [loginScreen, setLoginScreen] = useState(false)
   const [registerScreen, setRegisterScreen] = useState(false)
-  const {} = useContext(AppContext)
+  const { setIsAuthenticated } = useContext(AppContext)
 
   const {
     register,
@@ -56,7 +56,7 @@ function LoginRegister() {
       const fetchApi = async () => {
         try {
           const res = await authApi.register(payload)
-          console.log(res)
+          setIsAuthenticated(true)
 
           toast.success('Register success!!')
         } catch (error) {

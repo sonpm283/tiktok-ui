@@ -1,13 +1,22 @@
 import { createContext, useState } from 'react'
+import { getAccessToken, getProfile } from '~/utils/auth'
 
 const initialAppContext = {
-  isAuthtenticated: false,
+  isAuththenticated: Boolean(getAccessToken()),
+  profile: getProfile(),
+  setPorfile: () => {},
+  setIsAuthenticated: () => {},
 }
 
 export const AppContext = createContext(initialAppContext)
 
 export const AppProvider = ({ children }) => {
-  const [isAuthtenticated, setIsAuthtenticated] = useState(false)
+  const [isAuththenticated, setIsAuthenticated] = useState(initialAppContext.isAuththenticated)
+  const [profile, setProfile] = useState(initialAppContext.profile)
 
-  return <AppContext.Provider value={{ isAuthtenticated }}>{children}</AppContext.Provider>
+  return (
+    <AppContext.Provider value={{ isAuththenticated, setIsAuthenticated, profile, setProfile }}>
+      {children}
+    </AppContext.Provider>
+  )
 }
