@@ -3,6 +3,7 @@ import styles from './Sidebar.module.scss'
 import { NavLink } from 'react-router-dom'
 import { ExploreIcon, FollowIcon, FriendIcon, HomeIcon, LiveIcon } from '~/components/Icons'
 import AccountItem from '~/components/AccountItem'
+import Button from '~/components/Button'
 const cx = classNames.bind(styles)
 
 function SideBar() {
@@ -101,46 +102,10 @@ function SideBar() {
           <li>
             <AccountItem className={cx('account-small')} />
           </li>
-          <li>
-            <AccountItem className={cx('account-small')} />
-          </li>
-          <li>
-            <AccountItem className={cx('account-small')} />
-          </li>
-          <li>
-            <AccountItem className={cx('account-small')} />
-          </li>
-          <li>
-            <AccountItem className={cx('account-small')} />
-          </li>
-          <li>
-            <AccountItem className={cx('account-small')} />
-          </li>
-          <li>
-            <AccountItem className={cx('account-small')} />
-          </li>
-          <li>
-            <AccountItem className={cx('account-small')} />
-          </li>
-          <li>
-            <AccountItem className={cx('account-small')} />
-          </li>
-          <li>
-            <AccountItem className={cx('account-small')} />
-          </li>
-          <li>
-            <AccountItem className={cx('account-small')} />
-          </li>
-          <li>
-            <AccountItem className={cx('account-small')} />
-          </li>
-          <li>
-            <AccountItem className={cx('account-small')} />
-          </li>
-          <li>
-            <AccountItem className={cx('account-small')} />
-          </li>
         </ul>
+        <Button text className={cx('seemore-btn')}>
+          See more
+        </Button>
       </div>
     </aside>
   )

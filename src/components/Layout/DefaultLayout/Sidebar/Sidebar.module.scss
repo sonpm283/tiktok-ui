@@ -5,6 +5,9 @@
   overflow-x: hidden;
   overflow-y: scroll;
 
+  position: sticky;
+  top: 60px;
+
   &::-webkit-scrollbar {
     width: 6px;
   }
@@ -68,4 +71,12 @@
   font-size: 14px;
   line-height: 18px;
   color: rgba(22, 24, 35, 0.75);
+}
+
+.seemore-btn {
+  padding: 0 8px;
+  min-width: auto;
+  font-size: 14px;
+  line-height: 18px;
+  color: var(--primary);
 }

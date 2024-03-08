@@ -5,9 +5,13 @@
   --search-button-width: 52px;
   width: 100%;
   height: var(--default-layout-header-height, 60px);
-
+  position: sticky;
+  top: 0;
+  z-index: 1000;
   padding-left: 16px;
   padding-right: 24px;
+
+  background-color: var(--white);
 
   box-shadow: 0px 1px 1px rgb(0 0 0 / 12%);
 }
