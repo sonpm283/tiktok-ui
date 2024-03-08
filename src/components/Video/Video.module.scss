@@ -84,6 +84,12 @@
   position: relative;
   margin-top: 10px;
   height: 566px;
+}
+
+.video-wrap {
+  width: 100%;
+  height: 100%;
+  position: absolute;
 
   & > video {
     border-radius: 8px;

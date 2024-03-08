@@ -5,6 +5,7 @@ import { useEffect, useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheckCircle, faMusic } from '@fortawesome/free-solid-svg-icons'
 import Button from '../Button'
+import AsideButton from '../AsideButton'
 
 const cx = classnames.bind(styles)
 
@@ -19,12 +20,12 @@ function Video() {
         <div className={cx('avatar')}>
           <img
             src="https://images.unsplash.com/photo-1659646240684-a405b508c41f?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGdva3V8ZW58MHx8MHx8fDA%3D"
-            alt="vilmeijuga"
+            alt="Son Hivelab"
           />
         </div>
         <div className={cx('content')}>
           <div className={cx('author')}>
-            <div className={cx('name')}>vilmeijuga</div>
+            <div className={cx('name')}>Son Hivelab</div>
             <div className={cx('icon')}>
               <FontAwesomeIcon className={cx('check-icon')} icon={faCheckCircle} />
             </div>
@@ -44,9 +45,13 @@ function Video() {
           </div>
 
           <div className={cx('video')}>
-            <video autoPlay controls loop muted ref={vidRef}>
-              <source src={video} type="video/mp4"></source>
-            </video>
+            <div className={cx('video-wrap')}>
+              <video autoPlay controls loop muted ref={vidRef}>
+                <source src={video} type="video/mp4"></source>
+              </video>
+
+              <AsideButton />
+            </div>
           </div>
         </div>
 
