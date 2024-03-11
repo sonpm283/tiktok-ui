@@ -408,19 +408,5 @@ export const ShareIcon = ({ className, width = '2.4rem', height = '2.4rem' }) =>
       clipRule="evenodd"
       opacity=".09"
     />
-    <defs>
-      <radialGradient
-        id="pc-share-078b3fae_a"
-        cx={0}
-        cy={0}
-        r={1}
-        gradienttransform="rotate(-113.046 11.628 5.43)scale(8.93256 8.78076)"
-        gradientunits="userSpaceOnUse"
-      >
-        <stop />
-        <stop offset=".995" stopOpacity=".01" />
-        <stop offset={1} stopOpacity=".01" />
-      </radialGradient>
-    </defs>
   </svg>
 )

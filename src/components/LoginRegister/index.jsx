@@ -28,7 +28,7 @@ const cx = classnames.bind(styles)
 
 function LoginRegister() {
   const [showAllButton, setShowAllButton] = useState(false)
-  const [toggleSreen, setToggleScreen] = useState(true)
+  const [toggleScreen, setToggleScreen] = useState(true)
   const [loginScreen, setLoginScreen] = useState(false)
   const [registerScreen, setRegisterScreen] = useState(false)
   const { setIsAuthenticated } = useContext(AppContext)
@@ -40,6 +40,7 @@ function LoginRegister() {
   } = useForm({
     resolver: yupResolver(registerScreen ? registerSchema : loginSchema),
     defaultValues: {
+      fullname: '',
       username: '',
       password: '',
       confirm_password: '',
@@ -50,8 +51,8 @@ function LoginRegister() {
     if (registerScreen) {
       //call api register
       //pick username and password from data
-      const { username, password } = data
-      const payload = { name: username, email: username, password }
+      const { fullname, username, password } = data
+      const payload = { name: fullname, email: username, password }
 
       const fetchApi = async () => {
         try {
@@ -72,7 +73,7 @@ function LoginRegister() {
   return (
     <div className={cx('wrapper')}>
       {!loginScreen ? (
-        <h2 className={cx('title')}>{toggleSreen ? 'Log in to TikTok' : 'Sign up form TikTok'}</h2>
+        <h2 className={cx('title')}>{toggleScreen ? 'Log in to TikTok' : 'Sign up form TikTok'}</h2>
       ) : (
         <h2 className={cx('title')}>{registerScreen ? 'Sign up' : 'Log in'}</h2>
       )}
@@ -85,14 +86,14 @@ function LoginRegister() {
         {!loginScreen ? (
           <>
             <div className={cx('method')}>
-              {toggleSreen && (
+              {toggleScreen && (
                 <Button className={cx('method-btn')} outline>
                   <QrCodeIcon />
                   <span>Use QR code</span>
                 </Button>
               )}
 
-              {toggleSreen ? (
+              {toggleScreen ? (
                 <Button
                   className={cx('method-btn')}
                   outline
@@ -180,6 +181,15 @@ function LoginRegister() {
                 </span>
               </div>
               <div className={cx('input-box')}>
+                {registerScreen && (
+                  <Input
+                    register={register}
+                    name="fullname"
+                    type="text"
+                    placeholder="Full name"
+                    errorMessage={errors.fullname?.message || ''}
+                  />
+                )}
                 <Input
                   register={register}
                   name="username"
@@ -221,7 +231,7 @@ function LoginRegister() {
       <div className={cx('footer')}>
         {!loginScreen ? (
           <>
-            {toggleSreen ? (
+            {toggleScreen ? (
               <span>Don’t have an account? </span>
             ) : (
               <span>Already have an account?</span>
@@ -234,7 +244,7 @@ function LoginRegister() {
                 setLoginScreen(false)
               }}
             >
-              {toggleSreen ? 'Sign up' : 'Log in'}
+              {toggleScreen ? 'Sign up' : 'Log in'}
             </Button>
           </>
         ) : (

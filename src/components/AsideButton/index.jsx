@@ -5,7 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faComment } from '@fortawesome/free-solid-svg-icons'
 
 const cx = classnames.bind(styles)
-function AsideButton() {
+function AsideButton({ reaction }) {
+  const { like, comment, share } = reaction
   return (
     <div className={cx('wrapper')}>
       <div className={cx('action-list')}>
@@ -13,19 +14,19 @@ function AsideButton() {
           <button className={cx('action-btn')}>
             <HearIcon />
           </button>
-          <span>657K</span>
+          <span>{like}</span>
         </div>
         <div className={cx('action-item')}>
           <button className={cx('action-btn')}>
             <FontAwesomeIcon className={cx('comment-icon')} icon={faComment} />
           </button>
-          <span>3937</span>
+          <span>{comment}</span>
         </div>
         <div className={cx('action-item')}>
           <button className={cx('action-btn')}>
             <ShareIcon />
           </button>
-          <span>4761</span>
+          <span>{share}</span>
         </div>
       </div>
     </div>

@@ -1,57 +1,85 @@
 import classnames from 'classnames/bind'
 import styles from './Video.module.scss'
-import video from '~/assets/videos/video.mp4'
 import { useEffect, useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheckCircle, faMusic } from '@fortawesome/free-solid-svg-icons'
 import Button from '../Button'
 import AsideButton from '../AsideButton'
+import useElementOnScreen from '~/hooks/useElementOnScreen'
+import { checkvalidImageURL } from '~/utils/utils'
 
 const cx = classnames.bind(styles)
 
-function Video() {
-  const vidRef = useRef()
+function Video({ video }) {
+  console.log(video)
+  const options = { root: null, rootMargin: '0px', threshold: 0.8 }
+  const videoRef = useRef()
+  const isVisible = useElementOnScreen(options, videoRef)
 
-  useEffect(() => {}, [])
+  useEffect(() => {
+    const playVideo = async () => {
+      if (isVisible && videoRef.current) {
+        try {
+          videoRef.current.curentTime = 0
+          await videoRef.current.play()
+        } catch (error) {
+          console.log('error', error)
+        }
+      } else {
+        videoRef.current.pause()
+      }
+    }
+
+    playVideo()
+  }, [isVisible])
 
   return (
     <div className={cx('wrapper')}>
       <div className={cx('inner')}>
         <div className={cx('avatar')}>
           <img
-            src="https://images.unsplash.com/photo-1659646240684-a405b508c41f?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGdva3V8ZW58MHx8MHx8fDA%3D"
-            alt="Son Hivelab"
+            src={
+              (checkvalidImageURL(video.user.avatar) && video.user.avatar) ||
+              'https://images.unsplash.com/photo-1659646240684-a405b508c41f?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGdva3V8ZW58MHx8MHx8fDA%3D'
+            }
+            alt={video.user.nickname}
           />
         </div>
         <div className={cx('content')}>
           <div className={cx('author')}>
-            <div className={cx('name')}>Son Hivelab</div>
+            <div className={cx('name')}>{video.user.nickname}</div>
             <div className={cx('icon')}>
               <FontAwesomeIcon className={cx('check-icon')} icon={faCheckCircle} />
             </div>
             <div className={cx('nick-name')}>VILMEI</div>
           </div>
-          <div className={cx('description')}>
-            Transform your hair from flat to fabulous with our volumizing powder.
-          </div>
+          <div className={cx('description')}>{video.description}</div>
           <div className={cx('tag')}>#livephotos #interface #capcut #trending #vibes #mood</div>
-          <div className={cx('song')}>
-            <FontAwesomeIcon className={cx('music-icon')} icon={faMusic} />
-            <span>original sound - CAPCUT TEMPLATE TRENDS - CAPCUT TEMPLATES</span>
-          </div>
+
+          {video.music && (
+            <div className={cx('song')}>
+              <FontAwesomeIcon className={cx('music-icon')} icon={faMusic} />
+              <span>{video.music}</span>
+            </div>
+          )}
+
           <div className={cx('tagname')}>
             <img src="https://p9-sg.tiktokcdn.com/obj/tiktok-obj/capcut_logo_64px_bk.png" alt="" />
             CapCut · Edit like a pro CapCut · Edit like a pro
           </div>
-
           <div className={cx('video')}>
             <div className={cx('video-wrap')}>
-              <video autoPlay controls loop muted ref={vidRef}>
-                <source src={video} type="video/mp4"></source>
+              <video autoPlay controls loop ref={videoRef}>
+                <source src={video.file_url} type="video/mp4"></source>
               </video>
-
-              <AsideButton />
             </div>
+            <AsideButton
+              reaction={{
+                like: video.user.likes_count,
+                comment: video.user.comments_count,
+                share: 0,
+              }}
+            />
           </div>
         </div>
 

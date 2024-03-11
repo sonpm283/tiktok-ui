@@ -18,6 +18,11 @@ export const loginSchema = yup
 
 export const registerSchema = yup
   .object({
+    fullname: yup
+      .string()
+      .required('Full name is required')
+      .min(5, 'Length must be between 5 and 160 characters')
+      .max(160, 'Length must be between 5 and 160 characters'),
     username: yup
       .string()
       .required('Email is required')

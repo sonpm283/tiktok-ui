@@ -17,9 +17,9 @@ function Modal({ isOpen, children, onClose, closeBtn = false }) {
       }
     }
 
-    // document.addEventListener('click', handleClickOutside, true)
+    document.addEventListener('click', handleClickOutside, true)
     return () => {
-      // document.removeEventListener('click', handleClickOutside)
+      document.removeEventListener('click', handleClickOutside)
     }
   }, [onClose])
 

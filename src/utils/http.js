@@ -34,11 +34,12 @@ class Http {
     // Handle general errors that are not 422
     this.instance.interceptors.response.use(
       (response) => {
+        console.log(response)
         const { url } = response.config
         if (url === path.login || url === path.register) {
           const data = response.data
-          this.accessToken = data.metadata.tokens.accessToken
-          saveProfile(data.metadata.user)
+          this.accessToken = data.metadata.metadata.tokens.accessToken
+          saveProfile(data.metadata.metadata.user)
           saveAccessToken(this.accessToken)
         } else if (url === path.logout) {
           this.accessToken = ''
