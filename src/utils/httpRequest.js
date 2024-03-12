@@ -5,7 +5,7 @@ const httpRequest = axios.create({
   timeout: 1000,
 })
 
-export const get = async (url, config = {}) => {
-  const response = await httpRequest.get(url, config)
+export const get = async (url) => {
+  const response = await httpRequest.get(url)
   return response.data
 }

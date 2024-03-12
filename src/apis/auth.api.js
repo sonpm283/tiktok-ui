@@ -5,7 +5,7 @@ export const authApi = {
     return http.post('/user/signup', body)
   },
   login: function (body) {
-    return http.post('/user/signin', body)
+    return http.post('/user/login', body)
   },
   logout: function () {
     return http.post('user/logout')

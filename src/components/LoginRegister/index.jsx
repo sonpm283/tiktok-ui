@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import classnames from 'classnames/bind'
@@ -32,6 +33,7 @@ function LoginRegister() {
   const [loginScreen, setLoginScreen] = useState(false)
   const [registerScreen, setRegisterScreen] = useState(false)
   const { setIsAuthenticated } = useContext(AppContext)
+  const navigate = useNavigate()
 
   const {
     register,
@@ -48,25 +50,29 @@ function LoginRegister() {
   })
 
   const onSubmit = handleSubmit((data) => {
-    if (registerScreen) {
-      //call api register
-      //pick username and password from data
-      const { fullname, username, password } = data
-      const payload = { name: fullname, email: username, password }
+    const { fullname, username, password } = data
+    const payload = { name: fullname, email: username, password }
 
-      const fetchApi = async () => {
-        try {
-          const res = await authApi.register(payload)
-          setIsAuthenticated(true)
-
-          toast.success('Register success!!')
-        } catch (error) {
-          toast.error(error.response.data.message)
+    const fetchApi = async (isRegister = true) => {
+      try {
+        if (isRegister) {
+          await authApi.register(payload)
+        } else {
+          await authApi.login(payload)
         }
+        navigate('/')
+        setIsAuthenticated(true)
+
+        toast.success(isRegister ? 'Register success!!' : 'Login success!!')
+      } catch (error) {
+        toast.error(error.response.data.message)
       }
+    }
+
+    if (registerScreen) {
       fetchApi()
     } else {
-      // capp api login
+      fetchApi(false)
     }
   })
 

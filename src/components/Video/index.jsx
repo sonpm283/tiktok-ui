@@ -11,7 +11,6 @@ import { checkvalidImageURL } from '~/utils/utils'
 const cx = classnames.bind(styles)
 
 function Video({ video }) {
-  console.log(video)
   const options = { root: null, rootMargin: '0px', threshold: 0.8 }
   const videoRef = useRef()
   const isVisible = useElementOnScreen(options, videoRef)
@@ -39,21 +38,21 @@ function Video({ video }) {
         <div className={cx('avatar')}>
           <img
             src={
-              (checkvalidImageURL(video.user.avatar) && video.user.avatar) ||
+              // (checkvalidImageURL(video.user.avatar) && video.user.avatar) ||
               'https://images.unsplash.com/photo-1659646240684-a405b508c41f?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGdva3V8ZW58MHx8MHx8fDA%3D'
             }
-            alt={video.user.nickname}
+            alt="sonpm"
           />
         </div>
         <div className={cx('content')}>
           <div className={cx('author')}>
-            <div className={cx('name')}>{video.user.nickname}</div>
+            <div className={cx('name')}>SonHivelab</div>
             <div className={cx('icon')}>
               <FontAwesomeIcon className={cx('check-icon')} icon={faCheckCircle} />
             </div>
             <div className={cx('nick-name')}>VILMEI</div>
           </div>
-          <div className={cx('description')}>{video.description}</div>
+          <div className={cx('description')}>{video.content}</div>
           <div className={cx('tag')}>#livephotos #interface #capcut #trending #vibes #mood</div>
 
           {video.music && (
@@ -70,13 +69,13 @@ function Video({ video }) {
           <div className={cx('video')}>
             <div className={cx('video-wrap')}>
               <video autoPlay controls loop ref={videoRef}>
-                <source src={video.file_url} type="video/mp4"></source>
+                <source src={video.media_url} type="video/mp4"></source>
               </video>
             </div>
             <AsideButton
               reaction={{
-                like: video.user.likes_count,
-                comment: video.user.comments_count,
+                like: 1,
+                comment: 1,
                 share: 0,
               }}
             />

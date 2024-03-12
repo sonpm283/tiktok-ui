@@ -34,7 +34,6 @@ class Http {
     // Handle general errors that are not 422
     this.instance.interceptors.response.use(
       (response) => {
-        console.log(response)
         const { url } = response.config
         if (url === path.login || url === path.register) {
           const data = response.data
