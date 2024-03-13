@@ -1,7 +1,9 @@
 import http from '~/utils/http'
 
+const URL = '/getVideoList'
+
 export const videoApi = {
-  getAll: function () {
-    return http.get('/getAllVideo')
+  getVideoList: function (params) {
+    return http.get(URL, { params })
   },
 }

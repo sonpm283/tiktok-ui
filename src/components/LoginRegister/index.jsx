@@ -1,5 +1,4 @@
 import { useContext, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import classnames from 'classnames/bind'
@@ -33,7 +32,6 @@ function LoginRegister() {
   const [loginScreen, setLoginScreen] = useState(false)
   const [registerScreen, setRegisterScreen] = useState(false)
   const { setIsAuthenticated } = useContext(AppContext)
-  const navigate = useNavigate()
 
   const {
     register,
@@ -51,16 +49,16 @@ function LoginRegister() {
 
   const onSubmit = handleSubmit((data) => {
     const { fullname, username, password } = data
-    const payload = { name: fullname, email: username, password }
+    const payloadReister = { name: fullname, email: username, password }
+    const payloadLogin = { name: fullname, email: username, password }
 
     const fetchApi = async (isRegister = true) => {
       try {
         if (isRegister) {
-          await authApi.register(payload)
+          await authApi.register(payloadReister)
         } else {
-          await authApi.login(payload)
+          await authApi.login(payloadLogin)
         }
-        navigate('/')
         setIsAuthenticated(true)
 
         toast.success(isRegister ? 'Register success!!' : 'Login success!!')

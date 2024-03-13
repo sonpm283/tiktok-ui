@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import classnames from 'classnames/bind'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -35,6 +35,8 @@ import { InboxIcon, MessageIcon } from '~/components/Icons'
 import Modal from '~/components/Modal'
 import LoginRegister from '~/components/LoginRegister'
 import { AppContext } from '~/contexts/app.context'
+import { authApi } from '~/apis/auth.api'
+import { toast } from 'react-toastify'
 
 const cx = classnames.bind(styles)
 
@@ -74,28 +76,28 @@ const MenuItemsLogin = [
     title: 'View profile',
     href: '/@sonpm283',
   },
-  {
-    icon: <FontAwesomeIcon icon={faBookmark} />,
-    title: 'Favorites',
-  },
-  {
-    icon: <FontAwesomeIcon icon={faCoins} />,
-    title: 'Get Coins',
-    href: '/coin',
-  },
-  {
-    icon: <FontAwesomeIcon icon={faVideo} />,
-    title: 'LIVE Studio',
-  },
-  {
-    icon: <FontAwesomeIcon icon={faFileVideo} />,
-    title: 'LIVE Creator Hub',
-  },
-  {
-    icon: <FontAwesomeIcon icon={faGear} />,
-    title: 'Settings',
-    href: '/setting',
-  },
+  // {
+  //   icon: <FontAwesomeIcon icon={faBookmark} />,
+  //   title: 'Favorites',
+  // },
+  // {
+  //   icon: <FontAwesomeIcon icon={faCoins} />,
+  //   title: 'Get Coins',
+  //   href: '/coin',
+  // },
+  // {
+  //   icon: <FontAwesomeIcon icon={faVideo} />,
+  //   title: 'LIVE Studio',
+  // },
+  // {
+  //   icon: <FontAwesomeIcon icon={faFileVideo} />,
+  //   title: 'LIVE Creator Hub',
+  // },
+  // {
+  //   icon: <FontAwesomeIcon icon={faGear} />,
+  //   title: 'Settings',
+  //   href: '/setting',
+  // },
   {
     icon: <FontAwesomeIcon icon={faEarthAsia} />,
     title: 'English',
@@ -134,21 +136,22 @@ const MenuItemsLogin = [
       ],
     },
   },
-  {
-    icon: <FontAwesomeIcon icon={faCircleQuestion} />,
-    title: 'Feedback and help',
-    href: '/feedback',
-  },
-  {
-    icon: <FontAwesomeIcon icon={faKeyboard} />,
-    title: 'Keyboard shortcuts',
-  },
-  {
-    icon: <FontAwesomeIcon icon={faMoon} />,
-    title: 'Dark mode',
-  },
+  // {
+  //   icon: <FontAwesomeIcon icon={faCircleQuestion} />,
+  //   title: 'Feedback and help',
+  //   href: '/feedback',
+  // },
+  // {
+  //   icon: <FontAwesomeIcon icon={faKeyboard} />,
+  //   title: 'Keyboard shortcuts',
+  // },
+  // {
+  //   icon: <FontAwesomeIcon icon={faMoon} />,
+  //   title: 'Dark mode',
+  // },
   {
     icon: <FontAwesomeIcon icon={faSignOut} />,
+    type: 'logout',
     title: 'Log out',
   },
 ]
@@ -157,27 +160,33 @@ function Header() {
   // const [searchResult, setSearchResult] = useState([])
   const [searchValue, setSearchValue] = useState('')
   const [isOpenModal, setIsOpenModal] = useState(true)
-  const { isAuththenticated } = useContext(AppContext)
+  const { isAuththenticated, setIsAuthenticated, setProfile } = useContext(AppContext)
+  const [menuData, setMenuData] = useState([])
 
-  const meuData = isAuththenticated ? MenuItemsLogin : MenuItems
+  useEffect(() => {
+    if (isAuththenticated) {
+      setMenuData(MenuItemsLogin)
+    } else {
+      setMenuData(MenuItems)
+    }
+  }, [isAuththenticated])
 
   const handleChange = (e) => {
     const target = e.target
     setSearchValue(target.value)
   }
 
-  // api call
-  // useState(() => {
-  //   setTimeout(() => {
-  //     setSearchResult(['item'])
-  //   }, 0)
-  // }, [])
-
   // handle when menu item not have children
   const handleMenuChange = (menuItem) => {
     switch (menuItem.type) {
       case 'language':
         // handle change language
+        break
+      case 'logout':
+        authApi.logout()
+        setIsAuthenticated(false)
+        setProfile(null)
+        toast.warning('Logout success!')
         break
       default:
     }
@@ -223,7 +232,7 @@ function Header() {
               <FontAwesomeIcon icon={faCircleXmark} />
             </button>
 
-            {/* <FontAwesomeIcon className={cx('loading')} icon={faSpinner} /> */}
+            {/* <FontAwesomeIcon className={cx('loading')} icon={fa</Menu>Spinner} /> */}
 
             <button type="button" className={cx('search-btn')}>
               <FontAwesomeIcon icon={faMagnifyingGlass} />
@@ -261,7 +270,7 @@ function Header() {
             </>
           )}
 
-          <Menu MenuItems={meuData} onChange={handleMenuChange}>
+          <Menu MenuItems={menuData} onChange={handleMenuChange}>
             {isAuththenticated ? (
               <button type="button" className={cx('avatar')}>
                 <img

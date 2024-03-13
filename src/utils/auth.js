@@ -15,4 +15,14 @@ export const getProfile = () => {
 
 export const clearLocalStorage = () => {
   localStorage.removeItem('access_token')
+  localStorage.removeItem('user_id')
+  localStorage.removeItem('profile')
+}
+
+export const saveUserId = (userId) => {
+  localStorage.setItem('user_id', userId)
+}
+
+export const getUserId = () => {
+  return localStorage.getItem('user_id')
 }

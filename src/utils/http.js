@@ -1,6 +1,13 @@
 import axios from 'axios'
 import { toast } from 'react-toastify'
-import { clearLocalStorage, getAccessToken, saveAccessToken, saveProfile } from './auth'
+import {
+  clearLocalStorage,
+  getAccessToken,
+  getUserId,
+  saveAccessToken,
+  saveProfile,
+  saveUserId,
+} from './auth'
 import path from './path'
 
 class Http {
@@ -21,6 +28,7 @@ class Http {
     this.instance.interceptors.request.use(
       (config) => {
         if (this.accessToken && config.headers) {
+          config.headers['x-client-id'] = getUserId()
           config.headers.authorization = this.accessToken
           return config
         }
@@ -31,7 +39,7 @@ class Http {
       },
     )
 
-    // Handle general errors that are not 422
+    // Add a response interceptor
     this.instance.interceptors.response.use(
       (response) => {
         const { url } = response.config
@@ -40,13 +48,16 @@ class Http {
           this.accessToken = data.metadata.metadata.tokens.accessToken
           saveProfile(data.metadata.metadata.user)
           saveAccessToken(this.accessToken)
+          saveUserId(data.metadata.metadata.user._id)
         } else if (url === path.logout) {
           this.accessToken = ''
+          this.userId = ''
           clearLocalStorage()
         }
         return response
       },
       function (error) {
+        // error !== 422
         if (error.response?.status !== 422) {
           const data = error.response?.data
           const message = data.message || error.message

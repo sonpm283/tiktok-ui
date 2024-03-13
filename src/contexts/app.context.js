@@ -6,6 +6,8 @@ const initialAppContext = {
   profile: getProfile(),
   setPorfile: () => {},
   setIsAuthenticated: () => {},
+  userId: '',
+  setUserId: () => {},
 }
 
 export const AppContext = createContext(initialAppContext)
@@ -13,9 +15,12 @@ export const AppContext = createContext(initialAppContext)
 export const AppProvider = ({ children }) => {
   const [isAuththenticated, setIsAuthenticated] = useState(initialAppContext.isAuththenticated)
   const [profile, setProfile] = useState(initialAppContext.profile)
+  const [userId, setUserId] = useState('')
 
   return (
-    <AppContext.Provider value={{ isAuththenticated, setIsAuthenticated, profile, setProfile }}>
+    <AppContext.Provider
+      value={{ isAuththenticated, setIsAuthenticated, profile, setProfile, userId, setUserId }}
+    >
       {children}
     </AppContext.Provider>
   )

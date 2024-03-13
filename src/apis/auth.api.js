@@ -8,6 +8,6 @@ export const authApi = {
     return http.post('/user/login', body)
   },
   logout: function () {
-    return http.post('user/logout')
+    return http.post('/user/logout')
   },
 }

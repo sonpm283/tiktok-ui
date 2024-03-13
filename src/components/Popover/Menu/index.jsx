@@ -5,12 +5,16 @@ import styles from './Menu.module.scss'
 import { Popover as PopoverWrapper } from '~/components/Popover'
 import MenuItem from './MenuItem'
 import Header from './Header'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 const cx = classnames.bind(styles)
 
 function Menu({ children, MenuItems = [], onChange }) {
   const [history, setHistory] = useState([{ data: MenuItems }])
   const currentMenu = history[history.length - 1]
+
+  useEffect(() => {
+    setHistory([{ data: MenuItems }])
+  }, [MenuItems])
 
   const renderMenuItems = () => {
     return currentMenu.data.map((menu, index) => (
