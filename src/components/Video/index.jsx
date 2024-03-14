@@ -38,7 +38,7 @@ function Video({ video }) {
         <div className={cx('avatar')}>
           <img
             src={
-              // (checkvalidImageURL(video.user.avatar) && video.user.avatar) ||
+              // (checkvalidImageURL(video.user_id.avatar) && video.user_id.avatar) ||
               'https://images.unsplash.com/photo-1659646240684-a405b508c41f?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGdva3V8ZW58MHx8MHx8fDA%3D'
             }
             alt="sonpm"
@@ -46,7 +46,7 @@ function Video({ video }) {
         </div>
         <div className={cx('content')}>
           <div className={cx('author')}>
-            <div className={cx('name')}>SonHivelab</div>
+            <div className={cx('name')}>{video.user_id?.name || 'user name'}</div>
             <div className={cx('icon')}>
               <FontAwesomeIcon className={cx('check-icon')} icon={faCheckCircle} />
             </div>

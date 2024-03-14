@@ -52,25 +52,25 @@ function LoginRegister() {
     const payloadReister = { name: fullname, email: username, password }
     const payloadLogin = { name: fullname, email: username, password }
 
-    const fetchApi = async (isRegister = true) => {
+    const fetchApi = async (type) => {
       try {
-        if (isRegister) {
+        if (type === 'register') {
           await authApi.register(payloadReister)
         } else {
           await authApi.login(payloadLogin)
         }
         setIsAuthenticated(true)
 
-        toast.success(isRegister ? 'Register success!!' : 'Login success!!')
+        toast.success(type === 'register' ? 'Register success!!' : 'Login success!!')
       } catch (error) {
         toast.error(error.response.data.message)
       }
     }
 
     if (registerScreen) {
-      fetchApi()
+      fetchApi('register')
     } else {
-      fetchApi(false)
+      fetchApi('login')
     }
   })
 

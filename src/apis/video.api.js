@@ -1,6 +1,6 @@
 import http from '~/utils/http'
 
-const URL = '/getVideoList'
+const URL = '/videos'
 
 export const videoApi = {
   getVideoList: function (params) {

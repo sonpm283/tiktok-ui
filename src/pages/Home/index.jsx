@@ -15,25 +15,22 @@ function Home() {
   const [noMoreVideo, setNoMoreVideo] = useState(false)
 
   const loadMore = useCallback(() => {
-    return setTimeout(() => {
-      console.log(page)
-      videoApi
-        .getVideoList({ _page: page })
-        .then((res) => {
-          if (Array.isArray(res.data.metadata.metadata.docs)) {
-            setVideos((prev) => [...prev, ...res.data.metadata.metadata.docs])
-            setPage((prev) => prev + 1)
-          }
-          if (
-            res.data.metadata.metadata.docs.length === 0 ||
-            page === res.metadata.metadata.totalDocs
-          ) {
-            setNoMoreVideo(true)
-          }
-        })
-        .catch((error) => {
-          console.log(error)
-        })
+    return setTimeout(async () => {
+      try {
+        const res = await videoApi.getVideoList({ _page: page })
+        if (Array.isArray(res.data.metadata.metadata)) {
+          setVideos((prev) => [...prev, ...res.data.metadata.metadata])
+          setPage((prev) => prev + 1)
+        }
+        if (
+          res.data.metadata.metadata.length === 0 ||
+          page === res.data.metadata.pagination.total
+        ) {
+          setNoMoreVideo(true)
+        }
+      } catch (error) {
+        console.log(error)
+      }
     }, 200)
   }, [page, setVideos])
 
