@@ -1,19 +1,25 @@
 import classnames from 'classnames/bind'
 import styles from './AsideButton.module.scss'
-import { HearIcon, ShareIcon } from '../Icons'
+import { HearIcon, HearIconActive, ShareIcon } from '../Icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faComment } from '@fortawesome/free-solid-svg-icons'
 
 const cx = classnames.bind(styles)
-function AsideButton({ reaction }) {
+function AsideButton({ reaction, isLiked, onUnLike, onLike }) {
   const { like, comment, share } = reaction
   return (
     <div className={cx('wrapper')}>
       <div className={cx('action-list')}>
         <div className={cx('action-item')}>
-          <button className={cx('action-btn')}>
-            <HearIcon />
-          </button>
+          {isLiked ? (
+            <button className={cx('action-btn')} onClick={onUnLike}>
+              <HearIconActive />
+            </button>
+          ) : (
+            <button className={cx('action-btn')} onClick={onLike}>
+              <HearIcon />
+            </button>
+          )}
           <span>{like}</span>
         </div>
         <div className={cx('action-item')}>

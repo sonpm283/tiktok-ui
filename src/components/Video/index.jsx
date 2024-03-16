@@ -1,12 +1,14 @@
 import classnames from 'classnames/bind'
 import styles from './Video.module.scss'
-import { useEffect, useRef } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheckCircle, faMusic } from '@fortawesome/free-solid-svg-icons'
 import Button from '../Button'
 import AsideButton from '../AsideButton'
 import useElementOnScreen from '~/hooks/useElementOnScreen'
 import { checkvalidImageURL } from '~/utils/utils'
+import { videoApi } from '~/apis/video.api'
+import { AppContext } from '~/contexts/app.context'
 
 const cx = classnames.bind(styles)
 
@@ -14,6 +16,13 @@ function Video({ video }) {
   const options = { root: null, rootMargin: '0px', threshold: 0.8 }
   const videoRef = useRef()
   const isVisible = useElementOnScreen(options, videoRef)
+  const { profile } = useContext(AppContext)
+  const [likeCount, setLikeCount] = useState(video.likes?.length || 0)
+  const [isLiked, setIsLiked] = useState(() => {
+    if (!video.likes) return false
+
+    return video.likes.includes(profile._id)
+  })
 
   useEffect(() => {
     const playVideo = async () => {
@@ -31,6 +40,26 @@ function Video({ video }) {
 
     playVideo()
   }, [isVisible])
+
+  const handleLike = async () => {
+    try {
+      await videoApi.likeVideo(video._id)
+      setIsLiked(true)
+      setLikeCount((prev) => prev + 1)
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
+
+  const handleUnLike = async () => {
+    try {
+      await videoApi.unlikeVideo(video._id)
+      setIsLiked(false)
+      setLikeCount((prev) => prev - 1)
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
 
   return (
     <div className={cx('wrapper')}>
@@ -73,8 +102,11 @@ function Video({ video }) {
               </video>
             </div>
             <AsideButton
+              isLiked={isLiked}
+              onLike={handleLike}
+              onUnLike={handleUnLike}
               reaction={{
-                like: 1,
+                like: likeCount,
                 comment: 1,
                 share: 0,
               }}

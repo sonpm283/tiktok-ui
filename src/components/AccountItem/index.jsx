@@ -5,7 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
 
 const cx = classnames.bind(styles)
-function AccountItem({ className }) {
+function AccountItem({ className, user }) {
+  if(!user) return null
   return (
     <div
       className={cx('wrapper', {
@@ -19,8 +20,8 @@ function AccountItem({ className }) {
       />
       <div className={cx('info')}>
         <p className={cx('name')}>
-          <span className="">sonpm2k3dzvd</span>
-          <FontAwesomeIcon className={cx('check')} icon={faCircleCheck} />
+          <span className="">{user.name}</span>
+          {user.tick && <FontAwesomeIcon className={cx('check')} icon={faCircleCheck} />}
         </p>
         <span className={cx('username')}>Kimbelhin</span>
       </div>

@@ -52,10 +52,6 @@
     color: rgba(22, 24, 35, 0.75);
   }
 
-  input:not(:placeholder-shown) ~ .clear {
-    display: block;
-  }
-
   &::after {
     content: '';
     position: absolute;
@@ -92,7 +88,16 @@
 
 .clear {
   cursor: pointer;
-  display: none;
+}
+
+.loading {
+  animation: spin 1.2s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: translateY(-50%) rotate(360deg);
+  }
 }
 
 .search-btn {
@@ -115,7 +120,7 @@
 }
 
 .logo {
-  flex: 0 0 118px;
+  flex: 0 0 300px;
   & > a,
   img {
     display: block;

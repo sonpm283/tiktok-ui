@@ -9,7 +9,7 @@ import {
   faEllipsisVertical,
   faMagnifyingGlass,
   faPlus,
-  // faSpinner,
+  faSpinner,
   faCircleQuestion,
   faSignOut,
   faUser,
@@ -37,6 +37,10 @@ import LoginRegister from '~/components/LoginRegister'
 import { AppContext } from '~/contexts/app.context'
 import { authApi } from '~/apis/auth.api'
 import { toast } from 'react-toastify'
+import useDebounce from '~/hooks/useDebounce'
+import useFetch from '~/hooks/useFetch'
+import { userApi } from '~/apis/user.api'
+import { set } from 'react-hook-form'
 
 const cx = classnames.bind(styles)
 
@@ -161,7 +165,10 @@ function Header() {
   const [searchValue, setSearchValue] = useState('')
   const [isOpenModal, setIsOpenModal] = useState(true)
   const { isAuththenticated, setIsAuthenticated, setProfile } = useContext(AppContext)
+  const [searchResult, setSearchResult] = useState([])
   const [menuData, setMenuData] = useState([])
+  const [searchTerm] = useDebounce(searchValue, 300)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     if (isAuththenticated) {
@@ -170,6 +177,28 @@ function Header() {
       setMenuData(MenuItems)
     }
   }, [isAuththenticated])
+
+  useEffect(() => {
+    if (!searchTerm.trim()) {
+      setSearchResult([])
+      return
+    }
+    let delaySetLoading
+
+    const fetchSearchResult = async () => {
+      setIsLoading(true)
+      const res = await userApi.searchUser(searchTerm)
+      if (res) {
+        delaySetLoading = setTimeout(() => {
+          setIsLoading(false)
+        }, 300)
+        setSearchResult(res.data.metadata)
+      }
+    }
+    fetchSearchResult()
+
+    return () => clearTimeout(delaySetLoading)
+  }, [searchTerm])
 
   const handleChange = (e) => {
     const target = e.target
@@ -205,17 +234,13 @@ function Header() {
         <TippyHeadless
           interactive={true}
           // visible={searchResult.length > 0}
-          visible={searchValue}
+          visible={searchResult.length > 0}
           render={(attrs) => (
             <div className={cx('search-result')} tabIndex="-1" {...attrs}>
               <PopoverWrapper>
                 <h4 className={cx('search-title')}>Accounts</h4>
-                <AccountItem />
-                <AccountItem />
-                <AccountItem />
-                <AccountItem />
-                <AccountItem />
-                <AccountItem />
+                {!!searchResult.length &&
+                  searchResult.map((user) => <AccountItem key={user._id} user={user} />)}
               </PopoverWrapper>
             </div>
           )}
@@ -228,11 +253,16 @@ function Header() {
               placeholder="Search accounts and videos"
               spellCheck={false}
             />
-            <button type="button" className={cx('clear')} onClick={() => setSearchValue('')}>
-              <FontAwesomeIcon icon={faCircleXmark} />
-            </button>
 
-            {/* <FontAwesomeIcon className={cx('loading')} icon={fa</Menu>Spinner} /> */}
+            {!isLoading && searchValue && (
+              <button type="button" className={cx('clear')} onClick={() => setSearchValue('')}>
+                <FontAwesomeIcon icon={faCircleXmark} />
+              </button>
+            )}
+
+            {isLoading && searchValue && (
+              <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />
+            )}
 
             <button type="button" className={cx('search-btn')}>
               <FontAwesomeIcon icon={faMagnifyingGlass} />
