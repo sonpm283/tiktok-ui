@@ -1,0 +1,52 @@
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.avatar {
+  flex-shrink: 0;
+  width: 116px;
+  height: 116px;
+  border-radius: 50%;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.user-id {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  font-size: 32px;
+  line-height: 38px;
+  font-weight: 700;
+}
+
+.user-name {
+  margin-top: 4px;
+  font-size: 1.8rem;
+  line-height: 24px;
+  font-weight: 600;
+}
+
+.edit-btn {
+  min-width: auto;
+  margin-top: 16px;
+}
+
+.interact {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 22px;
+}
+
+.check {
+  font-size: 20px;
+  color: #20d5ec;
+}

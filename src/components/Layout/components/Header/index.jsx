@@ -1,46 +1,40 @@
-import { useContext, useEffect, useState } from 'react'
-import classnames from 'classnames/bind'
-import { Link } from 'react-router-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
-  faEarthAsia,
-  faKeyboard,
+  faCircleQuestion,
   faCircleXmark,
+  faEarthAsia,
   faEllipsisVertical,
+  faKeyboard,
   faMagnifyingGlass,
   faPlus,
-  faSpinner,
-  faCircleQuestion,
   faSignOut,
+  faSpinner,
   faUser,
-  faBookmark,
-  faCoins,
-  faVideo,
-  faFileVideo,
-  faGear,
-  faMoon,
 } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import classnames from 'classnames/bind'
+import { useContext, useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 import Tippy from '@tippyjs/react'
 import TippyHeadless from '@tippyjs/react/headless'
 import 'tippy.js/dist/tippy.css' // optional
 
-import styles from './Header.module.scss'
+import { toast } from 'react-toastify'
+import { authApi } from '~/apis/auth.api'
+import { userApi } from '~/apis/user.api'
 import images from '~/assets/images'
-import { Popover as PopoverWrapper } from '~/components/Popover'
 import AccountItem from '~/components/AccountItem'
 import Button from '~/components/Button'
-import Menu from '~/components/Popover/Menu'
 import { InboxIcon, MessageIcon } from '~/components/Icons'
-import Modal from '~/components/Modal'
 import LoginRegister from '~/components/LoginRegister'
+import Modal from '~/components/Modal'
+import { Popover as PopoverWrapper } from '~/components/Popover'
+import Menu from '~/components/Popover/Menu'
 import { AppContext } from '~/contexts/app.context'
-import { authApi } from '~/apis/auth.api'
-import { toast } from 'react-toastify'
 import useDebounce from '~/hooks/useDebounce'
-import useFetch from '~/hooks/useFetch'
-import { userApi } from '~/apis/user.api'
-import { set } from 'react-hook-form'
+import styles from './Header.module.scss'
+import { getProfile } from '~/utils/auth'
+const profile = getProfile()
 
 const cx = classnames.bind(styles)
 
@@ -78,30 +72,8 @@ const MenuItemsLogin = [
   {
     icon: <FontAwesomeIcon icon={faUser} />,
     title: 'View profile',
-    href: '/@sonpm283',
+    to: `/profile/${profile?._id}`,
   },
-  // {
-  //   icon: <FontAwesomeIcon icon={faBookmark} />,
-  //   title: 'Favorites',
-  // },
-  // {
-  //   icon: <FontAwesomeIcon icon={faCoins} />,
-  //   title: 'Get Coins',
-  //   href: '/coin',
-  // },
-  // {
-  //   icon: <FontAwesomeIcon icon={faVideo} />,
-  //   title: 'LIVE Studio',
-  // },
-  // {
-  //   icon: <FontAwesomeIcon icon={faFileVideo} />,
-  //   title: 'LIVE Creator Hub',
-  // },
-  // {
-  //   icon: <FontAwesomeIcon icon={faGear} />,
-  //   title: 'Settings',
-  //   href: '/setting',
-  // },
   {
     icon: <FontAwesomeIcon icon={faEarthAsia} />,
     title: 'English',
@@ -140,19 +112,6 @@ const MenuItemsLogin = [
       ],
     },
   },
-  // {
-  //   icon: <FontAwesomeIcon icon={faCircleQuestion} />,
-  //   title: 'Feedback and help',
-  //   href: '/feedback',
-  // },
-  // {
-  //   icon: <FontAwesomeIcon icon={faKeyboard} />,
-  //   title: 'Keyboard shortcuts',
-  // },
-  // {
-  //   icon: <FontAwesomeIcon icon={faMoon} />,
-  //   title: 'Dark mode',
-  // },
   {
     icon: <FontAwesomeIcon icon={faSignOut} />,
     type: 'logout',
@@ -169,6 +128,7 @@ function Header() {
   const [menuData, setMenuData] = useState([])
   const [searchTerm] = useDebounce(searchValue, 300)
   const [isLoading, setIsLoading] = useState(true)
+  let delaySetLoading = useRef(null)
 
   useEffect(() => {
     if (isAuththenticated) {
@@ -183,21 +143,19 @@ function Header() {
       setSearchResult([])
       return
     }
-    let delaySetLoading
 
-    const fetchSearchResult = async () => {
+    ;(async () => {
       setIsLoading(true)
       const res = await userApi.searchUser(searchTerm)
       if (res) {
-        delaySetLoading = setTimeout(() => {
+        delaySetLoading.current = setTimeout(() => {
           setIsLoading(false)
         }, 300)
         setSearchResult(res.data.metadata)
       }
-    }
-    fetchSearchResult()
+    })()
 
-    return () => clearTimeout(delaySetLoading)
+    return () => clearTimeout(delaySetLoading.current)
   }, [searchTerm])
 
   const handleChange = (e) => {

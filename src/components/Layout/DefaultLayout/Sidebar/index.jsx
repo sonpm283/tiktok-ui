@@ -4,9 +4,22 @@ import { NavLink } from 'react-router-dom'
 import { ExploreIcon, FollowIcon, FriendIcon, HomeIcon, LiveIcon } from '~/components/Icons'
 import AccountItem from '~/components/AccountItem'
 import Button from '~/components/Button'
+import { useEffect, useState } from 'react'
+import { userApi } from '~/apis/user.api'
+
 const cx = classNames.bind(styles)
 
 function SideBar() {
+  const [users, setUsers] = useState([])
+
+  useEffect(() => {
+    ;(async () => {
+      const res = await userApi.getUser()
+      if (res) {
+        setUsers(res.data.metadata)
+      }
+    })()
+  }, [])
   return (
     <aside className={cx('wrapper')}>
       <ul>
@@ -67,7 +80,7 @@ function SideBar() {
             className={({ isActive }) =>
               isActive ? cx('sidebar-link-active') : cx('sidebar-link')
             }
-            to="/profile"
+            to="/profile/123"
           >
             <div>
               <img
@@ -84,24 +97,12 @@ function SideBar() {
       <div className={cx('following-area')}>
         <h2 className={cx('following-title')}>Following accounts</h2>
         <ul className={cx('following-list')}>
-          <li>
-            <AccountItem className={cx('account-small')} />
-          </li>
-          <li>
-            <AccountItem className={cx('account-small')} />
-          </li>
-          <li>
-            <AccountItem className={cx('account-small')} />
-          </li>
-          <li>
-            <AccountItem className={cx('account-small')} />
-          </li>
-          <li>
-            <AccountItem className={cx('account-small')} />
-          </li>
-          <li>
-            <AccountItem className={cx('account-small')} />
-          </li>
+          {users &&
+            users.map((user) => (
+              <li key={user._id}>
+                <AccountItem user={user} className={cx('account-small')} />
+              </li>
+            ))}
         </ul>
         <Button text className={cx('seemore-btn')}>
           See more

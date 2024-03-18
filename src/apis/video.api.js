@@ -1,15 +1,14 @@
 import http from '~/utils/http'
-
 const URL = '/videos'
 
 export const videoApi = {
-  getVideoList: function (params) {
+  getVideoList(params) {
     return http.get(URL, { params })
   },
-  likeVideo: function (id) {
+  likeVideo(id) {
     return http.patch(`${URL}/${id}/like`)
   },
-  unlikeVideo: function (id) {
+  unLikeVideo(id) {
     return http.patch(`${URL}/${id}/unlike`)
   },
 }

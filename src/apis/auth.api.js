@@ -2,13 +2,13 @@ import http from '~/utils/http'
 const URL = '/user'
 
 export const authApi = {
-  register: function (body) {
+  register(body) {
     return http.post(`${URL}/signup`, body)
   },
-  login: function (body) {
+  login(body) {
     return http.post(`${URL}/login`, body)
   },
-  logout: function () {
+  logout() {
     return http.post(`${URL}/logout`)
   },
 }

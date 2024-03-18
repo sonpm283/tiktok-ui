@@ -53,7 +53,7 @@ function Video({ video }) {
 
   const handleUnLike = async () => {
     try {
-      await videoApi.unlikeVideo(video._id)
+      await videoApi.unLikeVideo(video._id)
       setIsLiked(false)
       setLikeCount((prev) => prev - 1)
     } catch (error) {
