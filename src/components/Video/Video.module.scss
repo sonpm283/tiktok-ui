@@ -109,6 +109,15 @@
   &:hover {
     background-color: rgb(254 44 85 / 8%);
   }
+
+  &.is-followed {
+    color: var(--text-color);
+    border-color: rgba(22, 24, 35, 0.12);
+
+    &:hover {
+      background-color: rgba(22, 24, 35, 0.03);
+    }
+  }
 }
 
 .music-icon {

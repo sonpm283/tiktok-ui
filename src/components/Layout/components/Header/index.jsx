@@ -123,7 +123,7 @@ function Header() {
   // const [searchResult, setSearchResult] = useState([])
   const [searchValue, setSearchValue] = useState('')
   const [isOpenModal, setIsOpenModal] = useState(true)
-  const { isAuththenticated, setIsAuthenticated, setProfile } = useContext(AppContext)
+  const { isAuththenticated, setIsAuthenticated, profile, setProfile } = useContext(AppContext)
   const [searchResult, setSearchResult] = useState([])
   const [menuData, setMenuData] = useState([])
   const [searchTerm] = useDebounce(searchValue, 300)
@@ -170,10 +170,13 @@ function Header() {
         // handle change language
         break
       case 'logout':
-        authApi.logout()
-        setIsAuthenticated(false)
-        setProfile(null)
-        toast.warning('Logout success!')
+        ;(async () => {
+          await authApi.logout()
+          setIsAuthenticated(false)
+          setProfile(null)
+          toast.warning('Logout success!')
+        })()
+
         break
       default:
     }

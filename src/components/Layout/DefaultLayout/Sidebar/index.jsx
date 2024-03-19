@@ -4,22 +4,25 @@ import { NavLink } from 'react-router-dom'
 import { ExploreIcon, FollowIcon, FriendIcon, HomeIcon, LiveIcon } from '~/components/Icons'
 import AccountItem from '~/components/AccountItem'
 import Button from '~/components/Button'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { userApi } from '~/apis/user.api'
+import { AppContext } from '~/contexts/app.context'
 
 const cx = classNames.bind(styles)
 
 function SideBar() {
+  const { isAuththenticated } = useContext(AppContext)
   const [users, setUsers] = useState([])
 
   useEffect(() => {
+    if (!isAuththenticated) return
     ;(async () => {
-      const res = await userApi.getUser()
+      const res = await userApi.getFollowingUser()
       if (res) {
-        setUsers(res.data.metadata)
+        setUsers(res.data.metadata.followings)
       }
     })()
-  }, [])
+  }, [isAuththenticated])
   return (
     <aside className={cx('wrapper')}>
       <ul>
@@ -99,7 +102,7 @@ function SideBar() {
         <ul className={cx('following-list')}>
           {users &&
             users.map((user) => (
-              <li key={user._id}>
+              <li key={user?._id}>
                 <AccountItem user={user} className={cx('account-small')} />
               </li>
             ))}

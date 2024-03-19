@@ -29,10 +29,10 @@ export default function UserProfile({ userInfo }) {
       </div>
       <div className={cx('interact')}>
         <span>
-          <strong>{userInfo.followings_count}</strong> Following
+          <strong>{userInfo?.followings?.length || 0}</strong> Following
         </span>
         <span>
-          <strong>{userInfo.followers_count}</strong> Followers
+          <strong>{userInfo?.followers?.length || 0}</strong> Followers
         </span>
         <span>
           <strong>0</strong> Likes

@@ -9,6 +9,7 @@ import useElementOnScreen from '~/hooks/useElementOnScreen'
 import { checkvalidImageURL } from '~/utils/utils'
 import { videoApi } from '~/apis/video.api'
 import { AppContext } from '~/contexts/app.context'
+import { userApi } from '~/apis/user.api'
 
 const cx = classnames.bind(styles)
 
@@ -18,9 +19,9 @@ function Video({ video }) {
   const isVisible = useElementOnScreen(options, videoRef)
   const { profile } = useContext(AppContext)
   const [likeCount, setLikeCount] = useState(video.likes?.length || 0)
+  const [isFollow, setIsFollow] = useState(false)
   const [isLiked, setIsLiked] = useState(() => {
     if (!video.likes) return false
-
     return video.likes.includes(profile._id)
   })
 
@@ -40,6 +41,37 @@ function Video({ video }) {
 
     playVideo()
   }, [isVisible])
+
+  useEffect(() => {
+    if (!profile?._id || !video.user_id?._id) return
+    ;(async () => {
+      const userLoginId = profile._id
+      const res = await userApi.getInfo(userLoginId)
+      const user = res.data.metadata
+
+      if (user.followings?.includes(video.user_id._id)) {
+        setIsFollow(true)
+      }
+    })()
+  }, [profile, video.user_id])
+
+  const handleFollow = (id) => async () => {
+    try {
+      await userApi.follow(id)
+      setIsFollow(true)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleUnFollow = (id) => async () => {
+    try {
+      await userApi.unFollow(id)
+      setIsFollow(false)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const handleLike = async () => {
     try {
@@ -114,8 +146,14 @@ function Video({ video }) {
           </div>
         </div>
 
-        <Button outline className={cx('follow-btn')}>
-          Follow
+        <Button
+          onClick={isFollow ? handleUnFollow(video.user_id._id) : handleFollow(video.user_id._id)}
+          outline
+          className={cx('follow-btn', {
+            'is-followed': isFollow,
+          })}
+        >
+          {isFollow ? 'Following' : 'Follow'}
         </Button>
       </div>
     </div>
