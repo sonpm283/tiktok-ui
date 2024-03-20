@@ -11,7 +11,15 @@ export default function UserProfile({ userInfo }) {
   return (
     <div className={cx('wrapper')}>
       <div className={cx('profile')}>
-        <Image className={cx('avatar')} src={userInfo?.avatar} alt={userInfo?.name} />
+        <Image
+          className={cx('avatar')}
+          src={
+            userInfo?.avatar
+              ? userInfo?.avatar
+              : 'https://images.unsplash.com/photo-1659646240684-a405b508c41f?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGdva3V8ZW58MHx8MHx8fDA%3D'
+          }
+          alt={userInfo?.name}
+        />
         <div className={cx('info')}>
           <strong className={cx('user-id')}>
             <span>user809048549</span>

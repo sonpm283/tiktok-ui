@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind'
 import styles from './Sidebar.module.scss'
 import { NavLink } from 'react-router-dom'
-import { ExploreIcon, FollowIcon, FriendIcon, HomeIcon, LiveIcon } from '~/components/Icons'
+import { ExploreIcon, FollowIcon, FriendIcon, HomeIcon } from '~/components/Icons'
 import AccountItem from '~/components/AccountItem'
 import Button from '~/components/Button'
 import { useContext, useEffect, useState } from 'react'

@@ -6,7 +6,6 @@ import { faCheckCircle, faMusic } from '@fortawesome/free-solid-svg-icons'
 import Button from '../Button'
 import AsideButton from '../AsideButton'
 import useElementOnScreen from '~/hooks/useElementOnScreen'
-import { checkvalidImageURL } from '~/utils/utils'
 import { videoApi } from '~/apis/video.api'
 import { AppContext } from '~/contexts/app.context'
 import { userApi } from '~/apis/user.api'
@@ -99,7 +98,7 @@ function Video({ video }) {
         <div className={cx('avatar')}>
           <img
             src={
-              // (checkvalidImageURL(video.user_id.avatar) && video.user_id.avatar) ||
+              video?.user_id.avatar ||
               'https://images.unsplash.com/photo-1659646240684-a405b508c41f?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGdva3V8ZW58MHx8MHx8fDA%3D'
             }
             alt="sonpm"
@@ -145,16 +144,17 @@ function Video({ video }) {
             />
           </div>
         </div>
-
-        <Button
-          onClick={isFollow ? handleUnFollow(video.user_id._id) : handleFollow(video.user_id._id)}
-          outline
-          className={cx('follow-btn', {
-            'is-followed': isFollow,
-          })}
-        >
-          {isFollow ? 'Following' : 'Follow'}
-        </Button>
+        {profile._id !== video.user_id._id && (
+          <Button
+            onClick={isFollow ? handleUnFollow(video.user_id._id) : handleFollow(video.user_id._id)}
+            outline
+            className={cx('follow-btn', {
+              'is-followed': isFollow,
+            })}
+          >
+            {isFollow ? 'Following' : 'Follow'}
+          </Button>
+        )}
       </div>
     </div>
   )

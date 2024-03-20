@@ -6,7 +6,7 @@ import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
 
 const cx = classnames.bind(styles)
 function AccountItem({ className, user }) {
-  if(!user) return null
+  if (!user) return null
   return (
     <div
       className={cx('wrapper', {
@@ -15,8 +15,11 @@ function AccountItem({ className, user }) {
     >
       <img
         className={cx('avatar')}
-        src="https://images.unsplash.com/photo-1659646240684-a405b508c41f?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGdva3V8ZW58MHx8MHx8fDA%3D"
-        alt="hoaanhdao2k3"
+        src={
+          user?.avatar ||
+          'https://images.unsplash.com/photo-1659646240684-a405b508c41f?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGdva3V8ZW58MHx8MHx8fDA%3D'
+        }
+        alt={user.name}
       />
       <div className={cx('info')}>
         <p className={cx('name')}>
