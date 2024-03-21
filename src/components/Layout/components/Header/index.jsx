@@ -120,10 +120,9 @@ const MenuItemsLogin = [
 ]
 
 function Header() {
-  // const [searchResult, setSearchResult] = useState([])
   const [searchValue, setSearchValue] = useState('')
   const [isOpenModal, setIsOpenModal] = useState(true)
-  const { isAuththenticated, setIsAuthenticated, profile, setProfile } = useContext(AppContext)
+  const { isAuththenticated, setIsAuthenticated, setProfile } = useContext(AppContext)
   const [searchResult, setSearchResult] = useState([])
   const [menuData, setMenuData] = useState([])
   const [searchTerm] = useDebounce(searchValue, 300)

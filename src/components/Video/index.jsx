@@ -21,7 +21,7 @@ function Video({ video }) {
   const [isFollow, setIsFollow] = useState(false)
   const [isLiked, setIsLiked] = useState(() => {
     if (!video.likes) return false
-    return video.likes.includes(profile._id)
+    return video.likes.includes(profile?._id)
   })
 
   useEffect(() => {
@@ -144,7 +144,7 @@ function Video({ video }) {
             />
           </div>
         </div>
-        {profile._id !== video.user_id._id && (
+        {profile?._id !== video?.user_id._id && (
           <Button
             onClick={isFollow ? handleUnFollow(video.user_id._id) : handleFollow(video.user_id._id)}
             outline
