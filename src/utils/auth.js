@@ -13,6 +13,12 @@ export const getProfile = () => {
   return profile ? JSON.parse(profile) : {}
 }
 
+export const getRefreshToken = () => localStorage.getItem('refresh_token') || ''
+
+export const saveRefreshToken = (access_token) => {
+  localStorage.setItem('refresh_token', access_token)
+}
+
 export const clearLocalStorage = () => {
   localStorage.removeItem('access_token')
   localStorage.removeItem('user_id')

@@ -11,4 +11,7 @@ export const authApi = {
   logout() {
     return http.post(`${URL}/logout`)
   },
+  refreshToken(body) {
+    return http.post(`${URL}/handleRefreshToken`, { body })
+  },
 }

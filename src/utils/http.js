@@ -3,17 +3,21 @@ import { toast } from 'react-toastify'
 import {
   clearLocalStorage,
   getAccessToken,
+  getRefreshToken,
   getUserId,
   saveAccessToken,
   saveProfile,
+  saveRefreshToken,
   saveUserId,
 } from './auth'
 import path from './path'
+import { authApi } from '~/apis/auth.api'
 
 class Http {
   accessToken = null
   constructor() {
     this.accessToken = getAccessToken()
+    this.refreshToken = getRefreshToken()
     this.instance = axios.create({
       baseURL: 'http://127.0.0.1:3056/v1/api/',
       timeout: 10000,
@@ -47,8 +51,10 @@ class Http {
         if (url === path.login || url === path.register) {
           const data = response.data
           this.accessToken = data.metadata.metadata.tokens.accessToken
+          this.refreshToken = data.metadata.metadata.tokens.refreshToken
           saveProfile(data.metadata.metadata.user)
           saveAccessToken(this.accessToken)
+          saveRefreshToken(this.refreshToken)
           saveUserId(data.metadata.metadata.user._id)
         } else if (url === path.logout) {
           this.accessToken = ''
@@ -57,13 +63,29 @@ class Http {
         }
         return response
       },
-      function (error) {
-        // error !== 422
-        if (error.response?.status !== 422) {
-          const data = error.response?.data
-          const message = data.message || error.message
-          toast.error(message)
+      async function (error) {
+        const originalRequest = error.config
+
+        if (error.response.status === 401 && !originalRequest._retry) {
+          originalRequest._retry = true
+
+          try {
+            // const refreshToken = getRefreshToken()
+            // const response = await authApi.refreshToken(refreshToken)
+            // console.log('New Token', response.data)
+            // const { token } = response.data
+            // saveAccessToken(token)
+            // Retry the original request with the new token
+            // originalRequest.headers.Authorization = `Bearer ${token}`
+            // return axios(originalRequest)
+          } catch (error) {
+            // Handle refresh token error or redirect to login
+          }
         }
+
+        const data = error.response?.data
+        const message = data.message || error.message
+        toast.error(message)
         return Promise.reject(error)
       },
     )
