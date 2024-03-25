@@ -21,6 +21,7 @@ export const saveRefreshToken = (access_token) => {
 
 export const clearLocalStorage = () => {
   localStorage.removeItem('access_token')
+  localStorage.removeItem('refresh_token')
   localStorage.removeItem('user_id')
   localStorage.removeItem('profile')
 }

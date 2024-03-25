@@ -17,7 +17,6 @@ class Http {
   accessToken = null
   constructor() {
     this.accessToken = getAccessToken()
-    this.refreshToken = getRefreshToken()
     this.instance = axios.create({
       baseURL: 'http://127.0.0.1:3056/v1/api/',
       timeout: 10000,
@@ -63,21 +62,24 @@ class Http {
         }
         return response
       },
-      async function (error) {
+      async (error) => {
         const originalRequest = error.config
-
         if (error.response.status === 401 && !originalRequest._retry) {
           originalRequest._retry = true
 
           try {
-            // const refreshToken = getRefreshToken()
-            // const response = await authApi.refreshToken(refreshToken)
-            // console.log('New Token', response.data)
-            // const { token } = response.data
-            // saveAccessToken(token)
+            const refreshTokenFromLocalStorage = getRefreshToken()
+            const response = await authApi.refreshToken(refreshTokenFromLocalStorage)
+            const { accessToken, refreshToken } = response.data.metadata.newTokens
+            saveAccessToken(accessToken)
+            saveRefreshToken(refreshToken)
             // Retry the original request with the new token
-            // originalRequest.headers.Authorization = `Bearer ${token}`
-            // return axios(originalRequest)
+            originalRequest.headers.Authorization = accessToken
+
+            // console.log('acc::::', accessToken)
+            // console.log('ref::::', refreshToken)
+
+            return axios(originalRequest)
           } catch (error) {
             // Handle refresh token error or redirect to login
           }

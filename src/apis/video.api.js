@@ -11,4 +11,11 @@ export const videoApi = {
   unLikeVideo(id) {
     return http.patch(`${URL}/${id}/unlike`)
   },
+  upload(body) {
+    return http.post(`${URL}/upload`, body, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+  },
 }

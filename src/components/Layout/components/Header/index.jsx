@@ -33,7 +33,7 @@ import Menu from '~/components/Popover/Menu'
 import { AppContext } from '~/contexts/app.context'
 import useDebounce from '~/hooks/useDebounce'
 import styles from './Header.module.scss'
-import { getProfile } from '~/utils/auth'
+import { clearLocalStorage, getProfile } from '~/utils/auth'
 const profile = getProfile()
 
 const cx = classnames.bind(styles)
@@ -173,6 +173,7 @@ function Header() {
           await authApi.logout()
           setIsAuthenticated(false)
           setProfile(null)
+          clearLocalStorage()
           toast.warning('Logout success!')
         })()
 
@@ -235,7 +236,7 @@ function Header() {
             'actions-login': isAuththenticated,
           })}
         >
-          <Button outline leftIcon={<FontAwesomeIcon icon={faPlus} />}>
+          <Button outline to="/upload" leftIcon={<FontAwesomeIcon icon={faPlus} />}>
             Upload
           </Button>
           {isAuththenticated ? (

@@ -1,0 +1,137 @@
+.wrapper {
+  padding: 64px 50px;
+}
+
+.upload-box {
+  display: block;
+  width: 100%;
+  padding: 60px 35px;
+  border: 2px dashed #1618231f;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+
+  &:hover {
+    background-color: #16182308;
+  }
+}
+
+.select-file-btn {
+  min-width: 400px;
+  margin-top: 32px;
+}
+
+.title {
+  margin-top: 2.5rem;
+  font-size: 1.8rem;
+  line-height: 2.7rem;
+  font-weight: 500;
+
+  .text {
+    margin-top: 4px;
+    margin-bottom: 24px;
+  }
+}
+
+.text {
+  margin-top: 10px;
+  font-size: 1.5rem;
+  line-height: 2.1rem;
+  color: rgb(115, 116, 123);
+
+  &.red {
+    color: var(--primary);
+  }
+}
+
+.upload-input {
+  display: none;
+}
+
+.upload-content {
+  display: flex;
+  gap: 40px;
+  justify-content: space-between;
+}
+
+.button-box {
+  margin-top: 20px;
+  & > button {
+    min-width: 164px;
+    height: 48px;
+  }
+}
+
+.video-box {
+  display: flex;
+  position: relative;
+  width: 284px;
+  height: 587px;
+  background-size: 100%;
+  background-image: url(https://res.cloudinary.com/dgpwaokug/image/upload/v1711354081/image/nco2rgvqhk3samsibkl6.png);
+  & > video,
+  .loading-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 90%;
+    height: 96%;
+    object-fit: cover;
+    border-radius: 30px;
+    transform: translate(-50%, -50%);
+  }
+
+  .loading-box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--white);
+
+    .spin {
+      font-size: 40px;
+    }
+  }
+}
+
+.content {
+  flex-direction: column;
+  flex: 1;
+  display: flex;
+}
+
+.upload-video-title {
+  font-size: 2.4rem;
+  line-height: 3.6rem;
+}
+
+.sub-title {
+  font-size: 1.8rem;
+  line-height: 2.7rem;
+  color: #16182380;
+  font-weight: 400;
+}
+
+.input-box {
+  display: flex;
+  flex-direction: column;
+  margin: 24px 0;
+
+  & > label {
+    font-weight: 600;
+    font-size: 1.7rem;
+    line-height: 2.8rem;
+  }
+
+  & > input {
+    height: 42px;
+    width: 100%;
+    padding: 0px 80px 0px 16px;
+    border: 1px solid #1618231f;
+    border-radius: 4px;
+    font-size: 1.6rem;
+    line-height: 1.8rem;
+  }
+}
