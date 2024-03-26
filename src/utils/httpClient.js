@@ -69,7 +69,9 @@ class Http {
 
           try {
             const refreshTokenFromLocalStorage = getRefreshToken()
-            const response = await authApi.refreshToken(refreshTokenFromLocalStorage)
+            const response =
+              refreshTokenFromLocalStorage &&
+              (await authApi.refreshToken(refreshTokenFromLocalStorage))
             const { accessToken, refreshToken } = response.data.metadata.newTokens
             saveAccessToken(accessToken)
             saveRefreshToken(refreshToken)
@@ -78,7 +80,6 @@ class Http {
 
             // console.log('acc::::', accessToken)
             // console.log('ref::::', refreshToken)
-
             return axios(originalRequest)
           } catch (error) {
             // Handle refresh token error or redirect to login

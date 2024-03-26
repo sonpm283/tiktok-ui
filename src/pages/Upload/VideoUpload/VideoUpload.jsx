@@ -14,25 +14,24 @@ export default function VideoUpload() {
   const [videoTitle, setVideoTitle] = useState('')
   const [selectFile, setSelectFile] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
-
   const inputRef = useRef()
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0]
+  const handleFileChange = (event) => {
+    updateSourceFile(event)
+  }
+
+  const handleDrop = (event) => {
+    updateSourceFile(event, 'drop')
+  }
+
+  const updateSourceFile = (event, type = '') => {
+    event.preventDefault()
+    const file = type === 'drop' ? event.dataTransfer.files[0] : event.target.files[0]
     const url = URL.createObjectURL(file)
     const fileName = file.name.split('.')[0]
     setSelectFile(file)
     setSource(url)
     setVideoTitle(fileName)
-  }
-
-  const handleSelectFileClick = () => {
-    inputRef.current.click()
-  }
-
-  const handleTitleChange = (e) => {
-    const { value } = e.target
-    setVideoTitle(value)
   }
 
   const handleSubmit = async (e) => {
@@ -46,82 +45,86 @@ export default function VideoUpload() {
       const res = await videoApi.upload(formData)
       if (res) {
         setIsLoading(false)
-        toast.success(res?.data.message)
+        toast(res?.data.message)
       }
     } catch (error) {
       console.log(error)
     }
   }
 
+  // DragOver: prevent default behavior (Prevent file from being opened on browser)
   return (
-    <form className={cx('wrapper')} onSubmit={handleSubmit} encType={'multipart/form-data'}>
-      {!source ? (
-        <Fragment>
-          <label htmlFor="upload-video" type="button" className={cx('upload-box')}>
-            <UploadIcon />
-            <h4 className={cx('title')}>
-              Select video to upload
-              <p className={cx('text')}>Or drag and drop a file</p>
-            </h4>
-            <p className={cx('text')}>MP4 or WebM</p>
-            <p className={cx('text')}>720x1280 resolution or higher</p>
-            <p className={cx('text', 'red')}>Up to 10 minutes</p>
-            <p className={cx('text')}>Less than 10 GB</p>
-            <Button
-              type="button"
-              onClick={handleSelectFileClick}
-              primary
-              className={cx('select-file-btn')}
-            >
-              Select file
-            </Button>
-          </label>
-          <input
-            ref={inputRef}
-            onChange={handleFileChange}
-            type="file"
-            className={cx('upload-input')}
-            id="upload-video"
-            accept=".mov,.mp4"
-          ></input>
-        </Fragment>
-      ) : (
-        <div className={cx('upload-content')}>
-          <div className={cx('content')}>
-            <h3 className={cx('upload-video-title')}>
-              Upload video
-              <p className={cx('sub-title')}>Post a video to your account</p>
-            </h3>
-            <div className={cx('input-box')}>
-              <label htmlFor="input-caption">Caption</label>
-              <input
-                type="text"
-                id="input-caption"
-                value={videoTitle}
-                onChange={handleTitleChange}
-              />
-            </div>
-
-            <div className={cx('button-box')}>
-              <Button outline onClick={() => setSource(null)}>
-                Discard
+    <div className="video-upload" onDrop={handleDrop} onDragOver={(e) => e.preventDefault()}>
+      <form className={cx('wrapper')} onSubmit={handleSubmit} encType={'multipart/form-data'}>
+        {!source ? (
+          <Fragment>
+            <label htmlFor="upload-video" type="button" className={cx('upload-box')}>
+              <UploadIcon />
+              <h4 className={cx('title')}>
+                Select video to upload
+                <p className={cx('text')}>Or drag and drop a file</p>
+              </h4>
+              <p className={cx('text')}>MP4 or WebM</p>
+              <p className={cx('text')}>720x1280 resolution or higher</p>
+              <p className={cx('text', 'red')}>Up to 10 minutes</p>
+              <p className={cx('text')}>Less than 10 GB</p>
+              <Button
+                type="button"
+                onClick={() => inputRef.current.click()}
+                primary
+                className={cx('select-file-btn')}
+              >
+                Select file
               </Button>
-              <Button primary>Post</Button>
+            </label>
+            <input
+              ref={inputRef}
+              onChange={handleFileChange}
+              hidden
+              type="file"
+              className={cx('upload-input')}
+              id="upload-video"
+              accept=".mov,.mp4"
+            ></input>
+          </Fragment>
+        ) : (
+          <div className={cx('upload-content')}>
+            <div className={cx('content')}>
+              <h3 className={cx('upload-video-title')}>
+                Upload video
+                <p className={cx('sub-title')}>Post a video to your account</p>
+              </h3>
+              <div className={cx('input-box')}>
+                <label htmlFor="input-caption">Caption</label>
+                <input
+                  type="text"
+                  id="input-caption"
+                  value={videoTitle}
+                  onChange={(e) => setVideoTitle(e.target.value)}
+                />
+              </div>
+
+              <div className={cx('button-box')}>
+                <Button outline onClick={() => setSource(null)}>
+                  Discard
+                </Button>
+                <Button primary>Post</Button>
+              </div>
+            </div>
+
+            <div className={cx('video-box')}>
+              {isLoading ? (
+                <div className={cx('loading-box')}>
+                  <FontAwesomeIcon className={cx('spin')} icon={faSpinner} spin />
+                  <span>Uploading...</span>
+                </div>
+              ) : (
+                <video className="VideoInput_video" autoPlay loop controls src={source} />
+              )}
             </div>
           </div>
-
-          <div className={cx('video-box')}>
-            {isLoading ? (
-              <div className={cx('loading-box')}>
-                <FontAwesomeIcon className={cx('spin')} icon={faSpinner} spin />
-                <span>Uploading...</span>
-              </div>
-            ) : (
-              <video className="VideoInput_video" autoPlay loop controls src={source} />
-            )}
-          </div>
-        </div>
-      )}
-    </form>
+        )}
+      </form>
+    </div>
   )
 }

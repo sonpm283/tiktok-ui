@@ -122,7 +122,7 @@ const MenuItemsLogin = [
 function Header() {
   const [searchValue, setSearchValue] = useState('')
   const [isOpenModal, setIsOpenModal] = useState(true)
-  const { isAuththenticated, setIsAuthenticated, setProfile } = useContext(AppContext)
+  const { isAuththenticated, setIsAuthenticated, profile, setProfile } = useContext(AppContext)
   const [searchResult, setSearchResult] = useState([])
   const [menuData, setMenuData] = useState([])
   const [searchTerm] = useDebounce(searchValue, 300)
@@ -265,7 +265,11 @@ function Header() {
             {isAuththenticated ? (
               <button type="button" className={cx('avatar')}>
                 <img
-                  src="https://images.unsplash.com/photo-1659646240684-a405b508c41f?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGdva3V8ZW58MHx8MHx8fDA%3D"
+                  src={
+                    profile?.avatar
+                      ? profile?.avatar
+                      : 'https://images.unsplash.com/photo-1659646240684-a405b508c41f?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGdva3V8ZW58MHx8MHx8fDA%3D'
+                  }
                   alt="sonpm"
                 />
               </button>

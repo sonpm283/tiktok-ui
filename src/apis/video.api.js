@@ -1,4 +1,4 @@
-import http from '~/utils/http'
+import http from '~/utils/httpClient'
 const URL = '/videos'
 
 export const videoApi = {

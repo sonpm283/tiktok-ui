@@ -155,4 +155,11 @@
   height: 32px;
   overflow: hidden;
   border-radius: 50%;
+  border: 2px solid var(--primary);
+
+  & > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 }

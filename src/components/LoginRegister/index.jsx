@@ -31,7 +31,7 @@ function LoginRegister() {
   const [toggleScreen, setToggleScreen] = useState(true)
   const [loginScreen, setLoginScreen] = useState(false)
   const [registerScreen, setRegisterScreen] = useState(false)
-  const { setIsAuthenticated } = useContext(AppContext)
+  const { setIsAuthenticated, setProfile } = useContext(AppContext)
 
   const {
     register,
@@ -55,15 +55,17 @@ function LoginRegister() {
     const fetchApi = async (type) => {
       try {
         if (type === 'register') {
-          await authApi.register(payloadReister)
+          const res = await authApi.register(payloadReister)
+          setProfile(res?.data.metadata.metadata.user)
         } else {
-          await authApi.login(payloadLogin)
+          const res = await authApi.login(payloadLogin)
+          setProfile(res?.data.metadata.metadata.user)
         }
         setIsAuthenticated(true)
 
-        toast.success(type === 'register' ? 'Register success!!' : 'Login success!!')
+        toast(type === 'register' ? 'Register success!!' : 'Login success!!')
       } catch (error) {
-        toast.error(error.response.data.message)
+        toast.error(error?.response.data.message)
       }
     }
 

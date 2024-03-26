@@ -4,7 +4,7 @@ import { getAccessToken, getProfile } from '~/utils/auth'
 const initialAppContext = {
   isAuththenticated: Boolean(getAccessToken()),
   profile: getProfile(),
-  setPorfile: () => {},
+  setProfile: () => {},
   setIsAuthenticated: () => {},
   userId: '',
   setUserId: () => {},
