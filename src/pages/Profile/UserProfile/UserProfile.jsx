@@ -4,10 +4,31 @@ import Button from '~/components/Button'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Image from '~/components/Image'
 import { faCircleCheck, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
+import TabsPanel from '~/components/TabsPanel'
+import Tab from '~/components/Tab'
+import { LockIcon } from '~/components/Icons'
+import ProfileVideoList from '../ProfileVideoList/ProfileVideoList'
+import { useEffect, useState } from 'react'
+import { videoApi } from '~/apis/video.api'
+import { useLocation } from 'react-router-dom'
 
 const cx = classnames.bind(styles)
 
 export default function UserProfile({ userInfo }) {
+  const location = useLocation()
+  const userId = location.pathname.split('/')[2]
+  const [profileVideos, setProfileVideos] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    ;(async () => {
+      setIsLoading(true)
+      const res = await videoApi.getVideoByUserId(userId)
+      if (!res) return null
+      setIsLoading(false)
+      setProfileVideos(res.data.metadata.metadata)
+    })()
+  }, [userId])
   return (
     <div className={cx('wrapper')}>
       <div className={cx('profile')}>
@@ -45,6 +66,28 @@ export default function UserProfile({ userInfo }) {
         <span>
           <strong>0</strong> Likes
         </span>
+      </div>
+
+      <div className={cx('tab-area')}>
+        <TabsPanel>
+          <Tab title="Videos">
+            <ProfileVideoList videos={profileVideos} isLoading={isLoading} />
+          </Tab>
+          <Tab title="Favorites" icon={<LockIcon />}></Tab>
+          <Tab title="Liked" icon={<LockIcon />}>
+            Lorem ipsum dolor amet glossier vinyl fanny pack, echo park mustache helvetica hexagon.
+            Pinterest enamel pin flexitarian cred literally air plant yr vape small batch ennui
+            taiyaki af. Quinoa kombucha asymmetrical, pitchfork 3 wolf moon tilde enamel pin bitters
+            XOXO. Gluten-free distillery semiotics, franzen DIY af green juice cornhole freegan
+            cloud bread. Master cleanse pok pok edison bulb flannel, banjo mlkshk YOLO pour-over.
+            Jean shorts intelligentsia snackwave pug.Lorem ipsum dolor amet glossier vinyl fanny
+            pack, echo park mustache helvetica hexagon. Pinterest enamel pin flexitarian cred
+            literally air plant yr vape small batch ennui taiyaki af. Quinoa kombucha asymmetrical,
+            pitchfork 3 wolf moon tilde enamel pin bitters XOXO. Gluten-free distillery semiotics,
+            franzen DIY af green juice cornhole freegan cloud bread. Master cleanse pok pok edison
+            bulb flannel, banjo mlkshk YOLO pour-over. Jean shorts intelligentsia snackwave pug.
+          </Tab>
+        </TabsPanel>
       </div>
     </div>
   )

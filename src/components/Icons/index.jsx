@@ -475,3 +475,22 @@ export const UploadIcon = ({ className, width = '4.8rem', height = '4.8rem' }) =
     <path d="M25.84 37h8.66a9.5 9.5 0 0 0 1.35-18.9A12 12 0 0 0 12 20v.01A8.5 8.5 0 0 0 12.5 37h10.34V25.6l-1.72 1.74a1 1 0 0 1-1.42 0l-.7-.7a1 1 0 0 1 0-1.41l4.4-4.4c.68-.76 1.22-.77 2 .08l4.28 4.32a1 1 0 0 1 0 1.4l-.7.72a1 1 0 0 1-1.42 0l-1.72-1.75V37Z" />
   </svg>
 )
+
+export const LockIcon = ({ className, width = '1.8rem', height = '1.8rem' }) => (
+  <svg
+    className={className}
+    width={width}
+    data-e2e
+    height={height}
+    viewBox="0 0 48 48"
+    fill="currentColor"
+    xmlns="http://www.w3.org/2000/svg"
+    style={{ transform: 'translateY(2px)' }}
+  >
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M24 3C17.9249 3 13 7.92487 13 14V21H8C6.89543 21 6 21.8954 6 23V41C6 42.1046 6.89543 43 8 43H40C41.1046 43 42 42.1046 42 41V23C42 21.8954 41.1046 21 40 21H35V14C35 7.92487 30.0751 3 24 3ZM31 21V14C31 10.134 27.866 7 24 7C20.134 7 17 10.134 17 14V21H31Z"
+    />
+  </svg>
+)

@@ -18,4 +18,7 @@ export const videoApi = {
       },
     })
   },
+  getVideoByUserId(id) {
+    return http.get(`${URL}/getByUserId/${id}`)
+  },
 }

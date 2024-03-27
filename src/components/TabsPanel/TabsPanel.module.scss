@@ -1,0 +1,39 @@
+.tabs {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #efefef;
+}
+
+.line {
+  position: absolute;
+  bottom: 0;
+  background-color: #000;
+  height: 2px;
+}
+
+.tab {
+  position: relative;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 500;
+  color: rgb(115, 116, 123);
+  height: 44px;
+  padding: 0 32px;
+
+  &.selected {
+    &:after {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      background-color: #000;
+      width: 100%;
+      height: 2px;
+      content: '';
+    }
+  }
+}
+
+.tab-content {
+  margin-top: 10px;
+}
